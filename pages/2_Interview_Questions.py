@@ -16,6 +16,7 @@ if "user" not in st.session_state or not st.session_state["user"].get("job_title
     st.stop()
 
 user = st.session_state["user"]
+st.session_state["last_active_page"] = "2_Interview_Questions"
 
 # ─── Page header ───────────────────────────────────────────────────────────────
 st.markdown("""
@@ -127,6 +128,11 @@ if st.session_state.question_bank:
 
             with col_btn:
                 if st.button("Practice →", key=f"practice_{i}", use_container_width=True):
+                    # Fully reset practice page state so the new question loads fresh
+                    for _key in ["transcript", "analysis", "ai_feedback", "ai_scores", "current_question"]:
+                        st.session_state[_key] = None
+                    st.session_state["session_saved"] = False
+                    st.session_state["asked_questions"] = st.session_state.get("asked_questions", [])
                     st.session_state["preloaded_question"] = q.get("question", "")
                     st.switch_page("pages/1_Interview_Practice.py")
 

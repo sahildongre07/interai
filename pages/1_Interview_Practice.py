@@ -50,6 +50,23 @@ if "session_saved" not in st.session_state:
 if "preloaded_question" not in st.session_state:
     st.session_state.preloaded_question = None
 
+# ─── Auto-reset when navigating back from another page ─────────────────────────
+# If the user left this page (last_active_page was something else) and has now
+# returned, clear the previous answer so they start fresh.
+_current_page = "interview_practice"
+_last_page = st.session_state.get("last_active_page", _current_page)
+if _last_page != _current_page:
+    # Came from a different page — reset answer state (keep asked_questions history)
+    st.session_state.transcript = None
+    st.session_state.analysis = None
+    st.session_state.ai_feedback = None
+    st.session_state.ai_scores = None
+    st.session_state.session_saved = False
+    # Only reset current_question if no preloaded_question is waiting
+    if not st.session_state.get("preloaded_question"):
+        st.session_state.current_question = None
+st.session_state["last_active_page"] = _current_page
+
 # ─── Step 1: Load/show question ────────────────────────────────────────────────
 col_q, col_btn = st.columns([4, 1])
 
