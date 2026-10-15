@@ -55,7 +55,7 @@ pip install -r requirements.txt
 1. Go to https://console.groq.com
 2. Sign up (free, no credit card)
 3. Go to API Keys → Create API Key
-4. Copy the key (starts with `gsk_...`)
+4. Copy the api key (starts with `gsk_...`)
 
 #### OpenRouter API Key (for LLM)
 1. Go to https://openrouter.ai
